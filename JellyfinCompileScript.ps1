@@ -12,7 +12,7 @@ $wsh.Popup("Welcome to Jellyfin for Tizen Compilation Script:
 
 -3. This script will ask you to add your TVs into Tizen Studio Device Manager.
 
--4. Check https://github.com/jellyfin/jellyfin-tizen/wiki/Build-on-Windows for a detailed guide.")
+-4. Check https://github.com/xatornet/Jellyfin-for-Tizen-Compiling-Script for a detailed guide.")
 
 #Checking requirements
 
@@ -90,7 +90,7 @@ Start-Sleep -Seconds 2
 #Node Requirement (not in wiki)
 npm install -g win-node-env
 
-$wsh.Popup("Please, do this now (if you have not previously done it):
+$wsh.Popup("Please, do this now (follow Steps 6 to 9 from WIKI):
 
 -1. Open Tizen Studio Certificate Manager, sign in with your Samsung Account and create a Samsung Certificate.
 
