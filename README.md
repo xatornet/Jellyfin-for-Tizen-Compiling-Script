@@ -6,6 +6,8 @@ Considerations:
 
 This script is mainly to ease the compilation of Jellyfin for Tizen on Windows computers.
 
+I'm currently using Jellyfin-Web from branch 10.8.z as the main branch won't work properly.
+
 Everything gathered inside the script has been extracted from the main Jellyfin-Tizen's Github. Please check it out as this script could become obsolete soon.
 (check them out here -> https://github.com/jellyfin/jellyfin-tizen/wiki/Build-on-Windows )
 
