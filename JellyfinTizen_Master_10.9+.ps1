@@ -1,4 +1,4 @@
-#XaToR's Script for Compiling Jellyfin Master Repo(10.9+) for Tizen TVs
+#XaToR's Script for Compiling Jellyfin (master or 10.9+) for Tizen TVs
 
 #Saving Initial Location
 $Init = Get-Location
@@ -30,6 +30,7 @@ else
 {
 	$wsh.Popup("Tizen Studio/Native CLI not detected.Please install it properly.
 	Script exiting...")
+	Start-Process "https://developer.tizen.org/development/tizen-studio/download"
 	Exit
 }
 
@@ -44,6 +45,7 @@ else
 {
 	$wsh.Popup("Git not detected. Please, install it properly.
 	Script exiting...")
+	Start-Process "https://git-scm.com/downloads"
 	Exit
 }
 
@@ -53,12 +55,13 @@ $Nodeinstalled = Test-Path "C:\Program Files\nodejs\npm"
 if ( $Nodeinstalled )
 {
     $wsh.Popup("Node.js detected, installing Yarn and resuming script...")
-	npm install --global yarn --silent
+	npm install --global yarn --quiet --no-progress
 }
 else
 {
-	$wsh.Popup("Node.js not detected. Please isntall it properly.
+	$wsh.Popup("Node.js not detected. Please install it properly.
 	Script exiting...")
+	Start-Process "https://nodejs.org/en"
 	Exit
 }
 
@@ -70,7 +73,7 @@ Start-Sleep -Seconds 2
 
 
 
-New-Item "C:\Jellyfin" -itemType Directory
+New-Item "C:\Jellyfin" -itemType Directory | Out-Null
 
 Write-Output "DIRECTORY CREATED"
 Start-Sleep -Seconds 2
@@ -82,14 +85,8 @@ Start-Sleep -Seconds 2
 
 cd c:\Jellyfin
 
-git clone https://github.com/jellyfin/jellyfin-web.git
-
-#Invoke-WebRequest -Uri https://github.com/jellyfin/jellyfin-web/archive/refs/tags/v10.8.13.zip -OutFile ".\JellyWeb10.8.13Source.zip"
-#Expand-Archive ".\JellyWeb10.8.13Source.zip" ".\"
-#Rename-Item -Path ".\jellyfin-web-10.8.13\" ".\jellyfin-web"
-#Remove-Item -Path ".\JellyWeb10.8.13Source.zip" -Force -Recurse -Confirm:$false
-
-git clone https://github.com/jellyfin/jellyfin-tizen.git
+git clone https://github.com/jellyfin/jellyfin-web.git 
+git clone https://github.com/jellyfin/jellyfin-tizen.git | out-null
 
 cls
 Start-Sleep -Seconds 2
@@ -97,7 +94,22 @@ Write-Output "INSTALLING MODULES"
 Start-Sleep -Seconds 2
 
 #Node Requirement (not in wiki)
-npm install -g win-node-env
+npm install --quiet --no-progress -g win-node-env
+
+[System.Reflection.Assembly]::LoadWithPartialName("System.Windows.Forms")
+$result = [System.Windows.Forms.MessageBox]::Show('Do you want the Script to open Wiki page to follow the install procedure? (Recomended)' , "Info" , 4)
+if ($result -eq 'Yes') {
+    cls
+	Start-Sleep -Seconds 2
+	Write-Output "OPENING WIKI PAGE"
+	Start-Sleep -Seconds 2
+    Start-Process "https://github.com/xatornet/Jellyfin-for-Tizen-Compiling-Script/wiki"
+} else { 
+	cls
+	Start-Sleep -Seconds 2
+	Write-Output "CONTINUING"
+	Start-Sleep -Seconds 2
+       }
 
 $wsh.Popup("Please, do this now (follow Steps 6 to 9 from WIKI):
 
@@ -117,8 +129,8 @@ Start-Sleep -Seconds 2
 #jellyfin-web compilation
 cd jellyfin-web
 $env:USE_SYSTEM_FONTS=1
-npm ci --no-audit
-npm run build:production
+npm ci --no-audit --quiet --no-progress 
+npm run --quiet --no-progress build:production
 cd..
 
 cls
@@ -132,10 +144,7 @@ cd jellyfin-tizen
 #get JELLYFIN_WEB_DIR to the dist folder
 $env:JELLYFIN_WEB_DIR="C:\jellyfin\jellyfin-web\dist"
 
-#This ENABLES REDUCED SIZE. Not used on 10.9+ builds (Included on USE_SYSTEM_FONTS earlier)
-#$env:DISCARD_UNUSED_FONTS=1
-
-npm ci --no-audit
+npm ci --no-audit --quiet --no-progress 
 
 cls
 Start-Sleep -Seconds 2
@@ -144,13 +153,13 @@ Start-Sleep -Seconds 2
 
 #Building App
 $env:Path +=";C:\tizen-studio\tools\ide\bin"
-tizen.bat build-web -e ".*" -e gulpfile.js -e README.md -e "node_modules/*" -e "package*.json" -e "yarn.lock"
-tizen.bat package -t wgt -o . -- .buildResult
+tizen.bat build-web -e ".*" -e gulpfile.js -e README.md -e "node_modules/*" -e "package*.json" -e "yarn.lock" | out-null
+tizen.bat package -t wgt -o . -- .buildResult | out-null
 
 #Moving results and cleaning
-Move-Item -Path ".\Jellyfin.wgt" "$Init"
+Move-Item -Path ".\Jellyfin.wgt" "$Init" | out-null
 cd $Init
-Remove-Item -Path "C:\Jellyfin" -Force -Recurse -Confirm:$false
+Remove-Item -Path "C:\Jellyfin" -Force -Recurse -Confirm:$false | out-null
 
 Start-Sleep -Seconds 2
 Write-Output "SCRIPT ENDED"
