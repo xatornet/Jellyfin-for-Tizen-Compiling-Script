@@ -14,7 +14,7 @@ There are 4 flavours:
 
 * Jellyfin Client compiled from Jellyfin-Web using stable 10.9 source.
 
-* * Jellyfin Client compiled from Jellyfin-Web using stable 10.10 source.
+* Jellyfin Client compiled from Jellyfin-Web using stable 10.10 source.
   
 * Jellyfin Client compiled from Jellyfin-Web master repo.
 
