@@ -8,13 +8,15 @@ This script is mainly to ease the compilation of Jellyfin for Tizen on Windows c
 
 ~~I'm currently using Jellyfin-Web from branch 10.8.z as the main branch won't work properly.~~
 
-There are 4 flavours:
+There are 5 flavours:
 
 * Jellyfin Client compiled from Jellyfin-Web using stable 10.8.3 source.
 
 * Jellyfin Client compiled from Jellyfin-Web using stable 10.9 source.
 
 * Jellyfin Client compiled from Jellyfin-Web using stable 10.10 source.
+
+* Jellyfin Client compiled from Jellyfin-Web using stable 10.11 source.
   
 * Jellyfin Client compiled from Jellyfin-Web master repo.
 
